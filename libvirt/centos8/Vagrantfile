@@ -38,3 +38,4 @@ Vagrant.configure("2") do |config|
     lb.cpus = "2"
   end
 end
+
