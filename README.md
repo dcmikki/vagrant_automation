@@ -64,10 +64,10 @@ $ virsh list --all
  
  Id    Name                         State 
 ----------------------------------------------------                 
- -		alpine316					shut off
- -		debian11					shut off
- -		rockylinux					shut off
- -		freebsd12.1-RELEASE			shut off
+ -     alpine316                    shut off
+ -     debian11                     shut off
+ -     rockylinux                   shut off
+ -     freebsd13.1-RELEASE         shut off
 ```
 
 Once you have Vagrant and KVM installed, you should be ready to install a libvirt plugin so that you can start managing KVM Virtual machines using Vagrant
