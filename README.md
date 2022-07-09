@@ -51,7 +51,6 @@ $ sudo dnf groupinstall "Virtualization Host"
 
 $ sudo systemctl status libvirtd
 $ sudo dnf install virt-install
-
 ```
 
 * Check QEMU / libvirt installation
@@ -71,11 +70,6 @@ $ virsh list --all
 ```
 
 Once you have Vagrant and KVM installed, you should be ready to install a libvirt plugin so that you can start managing KVM Virtual machines using Vagrant
-
-
-
- Then install Vagrant libvirt plugin: $ vagrant plugin install vagrant-libvirt Installing the 'vagrant-libvirt' plugin.
-
 
 ### Install vagrant plugins
 The minimal plugin required is `vagrant-libvirt`
