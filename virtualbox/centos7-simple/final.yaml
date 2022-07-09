@@ -1,0 +1,15 @@
+---
+- hosts: 192.168.56.101
+  remote_user: vagrant
+  become: true
+  roles:
+    - example
+    - secreto
+
+- hosts: 192.168.56.102
+  remote_user: vagrant
+  become: true
+  roles:
+    - destino 
+    - destino2
+    - secreto

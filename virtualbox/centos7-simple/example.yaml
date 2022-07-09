@@ -1,0 +1,22 @@
+---
+- hosts: all
+  connection: ssh
+  gather_facts: true
+  tasks:
+  - name: Version system CentOS7
+    shell: "cat /etc/redhat-release"
+    register: version_centos
+
+  - debug:
+      msg:
+        - "Hola mundo" 
+        - "Que Pasaaaa Billy !!!!!!!"
+        - "La version de tu maquina virtual es: {{ hostvars[inventory_hostname]['version_centos']['stdout_lines'] }}"
+        - "La version de tu maquina virtual es: {{ version_centos.stdout_lines }}"
+        - "{{ version_centos.stdout }}"
+        - "{{ version_centos.stdout.split() }}"
+        - "{{ version_centos.stdout.split()[3] }}"
+        - "{{ version_centos.stdout.split()[3] | hash('sha1') }}"
+        - "{{ groups['MINT_SERVERS'] }}"
+        - "{{ billy }}"
+        - "QUE PASSSaaaa"

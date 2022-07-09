@@ -1,0 +1,47 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+
+  config.vm.define "example" do |example|
+    example.vm.box = "centos7-docker"
+    example.vm.box_url = "/home/diego/CODE/BOXES/virtualbox-centos-7.9.2009-ansible-2.9.15.box"
+    # example.vm.provision "ansible" do |ansible|
+    #   ansible.playbook = "example.yaml"
+    #   ansible.inventory_path = "inventory.ini"
+    #   ansible.compatibility_mode = "2.0"
+    #   ansible.verbose = true
+    #   ansible.limit = "all"
+    #   ansible.become = true
+    # end
+    example.vm.network "private_network", ip: "192.168.56.101"
+    example.vm.network "forwarded_port", guest: 8000, host: 8000	   # node.js --> fakeserver
+    example.vm.network "forwarded_port", guest: 27017, host: 27017	 # mongodb backend
+    example.vm.network "forwarded_port", guest: 8153, host: 8153	   # gocd server
+    example.vm.network "forwarded_port", guest: 8154, host: 8154	   # gocd agents
+    example.vm.network "forwarded_port", guest: 8080, host: 8080     # Jenkins
+    # example.vm.network "forwarded_port", guest: 80, host: 80         # web servers  
+  end
+
+  config.vm.provision :hosts do |hosts_config|
+    hosts_config.add_host '192.168.56.101', ['example', 'example.vagrantup.internal']
+  end
+
+  config.vm.provision "shell" do |s|
+    ssh_pub_key = File.readlines("#{Dir.home}/.ssh/id_rsa.pub").first.strip
+    s.inline = <<-SHELL
+      echo #{ssh_pub_key} >> /home/vagrant/.ssh/authorized_keys
+    SHELL
+  end
+
+  # Boostrap --> Configure Swarm API port 2375 + install terraform 0.11.14
+  
+  # config.vm.provision "shell", path: "install_docker_ce.sh"
+  # config.vm.provision "shell", path: "bootstrap-terraform.sh"
+
+  config.vm.provider "virtualbox" do |vb|
+    vb.gui = false
+    vb.memory = "2048"
+    vb.cpus = "2"
+  end
+end

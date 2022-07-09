@@ -1,0 +1,33 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+
+  config.vm.define "docker-centos7" do |example|
+    example.vm.box = "centos7-docker"
+    example.vm.box_url = "/home/diego/CODE/BOXES/virtualbox-centos-7.9-ansible-2.9.16-guestadditions-5.2.42.box"
+    example.vm.network "private_network", ip: "192.168.56.111"
+    example.vm.network "forwarded_port", guest: 8080, host: 8080
+  end
+
+  config.vm.provision :hosts do |hosts_config|
+    hosts_config.add_host '192.168.56.111', ['docker', 'docker.vagrantup.internal']
+  end
+
+  config.vm.provision "shell" do |s|
+    ssh_pub_key = File.readlines("#{Dir.home}/.ssh/id_rsa.pub").first.strip
+    s.inline = <<-SHELL
+      echo #{ssh_pub_key} >> /home/vagrant/.ssh/authorized_keys
+    SHELL
+  end
+  
+  config.vm.provision "shell", path: "install_docker_ce.sh"
+  config.vm.provision "shell", path: "bootstrap-terraform.sh"
+  # config.vm.provision "shell", path: "neofetch_installation.sh"
+
+  config.vm.provider "virtualbox" do |vb|
+    vb.gui = false
+    vb.memory = "2048"
+    vb.cpus = "2"
+  end
+end

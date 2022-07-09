@@ -1,0 +1,16 @@
+{
+	"MINT_SERVERS": {
+		"hosts": {
+			"192.168.56.101": null,
+			"192.168.56.102": null
+    	},
+    	"vars": {
+    		"billy": "{{ hostvars['192.168.56.101']['version_centos']['stdout'].split()[3] }}",
+    		"current_version_centos7": "{{ hostvars['192.168.56.101']['version_centos']['stdout'].split()[3] }}",
+    		"diego": "tess",
+    		"spain": "scotland",
+    		"burgos": "glasgow",
+    		"jefe": "{{ groups['MINT_SERVERS'][1] }}" 
+    	}
+	}
+}

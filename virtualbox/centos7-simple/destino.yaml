@@ -1,0 +1,32 @@
+---
+- hosts: 192.168.56.102
+  gather_facts: true
+  tasks:
+
+  - name: chech if ansible has been installed
+    shell: rpm -qa | grep ansible
+    register: package_version
+
+  - debug:
+      msg:
+        - "Hola mundo" 
+        # - "{{ hostvars[inventory_hostname]['version_centos']['stdout_lines'] }}"
+        # - "{{ hostvars['192.168.56.101'] }}"
+        # - "{{ hostvars['192.168.56.101']['version_centos'] }}"
+        # - "{{ hostvars['192.168.56.101']['version_centos']['stdout_lines'] }}"
+        # - "{{ hostvars['192.168.56.101']['version_centos']['stdout'].split()[3] }}"
+        - "{{ billy }}"
+        - "{{ hostvars['192.168.56.101']['version_centos']['stdout'].split()[3] }}"
+        # - "{{ groups['MINT_SERVERS'][0]['version_centos']['stdout'].split()[3] }}"
+        # - "{{ groups['MINT_SERVERS'][0] }}"
+        # - "{{ hostvars['192.168.56.101'] }}"
+        - "Ansible installed --> version: {{ package_version.stdout.split('-')[1] }}"
+        - "{{ current_version_centos7 }}"
+        - "QUE PASSSaaaa"
+
+  - name: install htop
+    yum:
+      name: htop
+      state: present
+    when: current_version_centos7 is defined
+
