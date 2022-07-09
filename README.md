@@ -84,6 +84,19 @@ vagrant-reload (0.0.1, global)
   - Version Constraint: > 0                                   
 ```
 
+### Start VM
+
+Default provider is Virtualbox so Vagarnt need to knoe that we want to set `Libvirt` 
+
+```shell
+$ vagrant up --provider=libvirt
+```
+
+Setup environment variable:
+```shell
+export VAGRANT_DEFAULT_PROVIDER=libvirt
+```
+
 ### Links
 * https://www.vagrantup.com/docs/installation
 * https://github.com/vagrant-libvirt/vagrant-libvirt
