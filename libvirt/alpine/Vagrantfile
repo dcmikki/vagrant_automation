@@ -1,0 +1,38 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+ENV['VAGRANT_DEFAULT_PROVIDER'] = 'libvirt'
+
+$script = <<-SCRIPT
+echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories 
+apk update && apk upgrade
+apk add ansible git jq vim net-tools tree py3-pip py3-virtualenv
+# apk add gcc musl-dev python3-dev libffi-dev openssl-dev cargo make
+# pip install --upgrade pip
+# pip install azure-cli
+
+echo "192.168.121.146 automation" >> /etc/hosts
+SCRIPT
+
+Vagrant.configure("2") do |config|
+  config.vm.define "automation" do |automation|
+    config.vm.box = "generic/alpine316"
+    automation.vm.network "private_network", ip: "192.168.121.146"
+    automation.vm.synced_folder ".", "/vagrant", disabled: false
+    automation.vm.hostname = "automation"
+  end
+
+  config.vm.provision "shell", inline: $script
+
+  config.vm.provision "shell" do |s|
+    ssh_pub_key = File.readlines("#{Dir.home}/.ssh/id_rsa.pub").first.strip
+    s.inline = <<-SHELL
+      echo #{ssh_pub_key} >> /home/vagrant/.ssh/authorized_keys
+    SHELL
+  end
+
+  config.vm.provider "libvirt" do |lb|
+    lb.memory = "2048"
+    lb.cpus = "2"
+  end
+end
