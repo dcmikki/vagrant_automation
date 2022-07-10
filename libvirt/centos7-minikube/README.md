@@ -1,4 +1,4 @@
-# Minikube CentOS 7
+# Minikube
 This Vagrant stack deploys minikube, kubectl and helm on the CentOS7 (guest) using docker as driver.
 
 ## Using Linux KVM (Kernel-based Virtual Machine) driver
