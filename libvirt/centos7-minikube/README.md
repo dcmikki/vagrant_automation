@@ -41,3 +41,12 @@ $ minikube start --driver=kvm2 --cpus=4 --memory=4400mb --disk-size=10000mb
 🏄  Done! kubectl is now configured to use "minikube" cluster and "default" namespace by default
 
 ```
+
+
+### Minikube and Kubectl Autocompletion
+For bash users add the following lines in `~/.bashrc`:
+
+```autocompletion
+source <(minikube completion bash)
+source <(kubectl completion bash)
+```
