@@ -4,9 +4,9 @@
 ENV['VAGRANT_DEFAULT_PROVIDER'] = 'libvirt'
 
 $script = <<-SCRIPT
-echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories 
+#echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories 
 apk update && apk upgrade
-apk add ansible git jq vim net-tools tree py3-pip py3-virtualenv
+apk add ansible git jq vim net-tools tree py3-pip py3-virtualenv neofetch
 # apk add gcc musl-dev python3-dev libffi-dev openssl-dev cargo make
 # pip install --upgrade pip
 # pip install azure-cli
@@ -16,7 +16,8 @@ SCRIPT
 
 Vagrant.configure("2") do |config|
   config.vm.define "automation" do |automation|
-    config.vm.box = "generic/alpine316"
+    #config.vm.box = "generic/alpine316"
+    config.vm.box = "generic/alpine38"
     automation.vm.network "private_network", ip: "192.168.121.146"
     automation.vm.synced_folder ".", "/vagrant", disabled: false
     automation.vm.hostname = "automation"
