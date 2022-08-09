@@ -1,10 +1,6 @@
 # Docker Swarm Alpine images
 This Vagrant stack deploys a docker swarm with one manager and one workerusing the libvirt virtualization API.
 
-## Using Linux KVM (Kernel-based Virtual Machine) driver
-It's quicker to deploy minikube using the KVM driver instead to spin up and provision a centos7 machine. To work with KVM, minikube uses the libvirt virtualization API.
-
-
 ## Vagrantfile
 Minimal deployment in the swarm stack.
 
