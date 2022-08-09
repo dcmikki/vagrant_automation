@@ -4,7 +4,7 @@
 ENV['VAGRANT_DEFAULT_PROVIDER'] = 'libvirt'
 
 $script = <<-SCRIPT
-#echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories 
+#echo "https://mirrors.edge.kernel.org/alpine/edge/testing" >> /etc/apk/repositories 
 apk update && apk upgrade
 apk add --update docker openrc
 rc-update add docker boot
@@ -18,14 +18,14 @@ SCRIPT
 
 Vagrant.configure("2") do |config|
   config.vm.define "manager01" do |manager|
-    config.vm.box = "generic/alpine38"
+    config.vm.box = "generic/alpine312"
     manager.vm.network "private_network", ip: "192.168.122.121"
     manager.vm.synced_folder ".", "/vagrant", disabled: false
     manager.vm.hostname = "manager01"
   end
 
   config.vm.define "worker01" do |worker|
-    config.vm.box = "generic/alpine38"
+    config.vm.box = "generic/alpine312"
     worker.vm.network "private_network", ip: "192.168.122.122"
     worker.vm.synced_folder ".", "/vagrant", disabled: false
     worker.vm.hostname = "worker01"
