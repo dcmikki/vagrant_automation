@@ -1,0 +1,47 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+ENV['VAGRANT_DEFAULT_PROVIDER'] = 'libvirt'
+
+$script = <<-SCRIPT
+#echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories 
+apk update && apk upgrade
+apk add --update docker openrc
+rc-update add docker boot
+service docker start
+service docker status
+addgroup vagrant docker
+#docker swarm init --advertise-addr 192.168.122.121
+echo "192.168.122.121 manager01" >> /etc/hosts
+echo "192.168.122.122 worker01" >> /etc/hosts
+SCRIPT
+
+Vagrant.configure("2") do |config|
+  config.vm.define "manager01" do |manager|
+    config.vm.box = "generic/alpine38"
+    manager.vm.network "private_network", ip: "192.168.122.121"
+    manager.vm.synced_folder ".", "/vagrant", disabled: false
+    manager.vm.hostname = "manager01"
+  end
+
+  config.vm.define "worker01" do |worker|
+    config.vm.box = "generic/alpine38"
+    worker.vm.network "private_network", ip: "192.168.122.122"
+    worker.vm.synced_folder ".", "/vagrant", disabled: false
+    worker.vm.hostname = "worker01"
+  end
+
+  config.vm.provision "shell", inline: $script
+
+  config.vm.provision "shell" do |s|
+    ssh_pub_key = File.readlines("#{Dir.home}/.ssh/id_rsa.pub").first.strip
+    s.inline = <<-SHELL
+      echo #{ssh_pub_key} >> /home/vagrant/.ssh/authorized_keys
+    SHELL
+  end
+
+  config.vm.provider "libvirt" do |lb|
+    lb.memory = "1024"
+    lb.cpus = "1"
+  end
+end
