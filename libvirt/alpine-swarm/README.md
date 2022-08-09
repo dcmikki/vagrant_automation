@@ -5,14 +5,14 @@ This Vagrant stack deploys a docker swarm with one manager and one workerusing t
 Minimal deployment in the swarm stack.
 
 * 1 node manager
-* 2 node worker
+* 1 node worker
 
 Easy to add more managers and workers on demand if its necessarry, but It depends of the hardware limitation of the host (memory and cpu's)
 
 
 ## Initiate Swarm
 
-Running the follow command the node manager.
+Running the follow command in the node manager.
 
 ```
 manager01:~# docker swarm init --advertise-addr 192.168.122.121
@@ -27,7 +27,7 @@ To add a manager to this swarm, run 'docker swarm join-token manager' and follow
 
 ```
 
-Note: If you deploy more manager the first manager will become as the leader
+NOTE: If you deploy more managers the first manager will become as the leader.
 
 ### Add node worker to swarm
 ```
@@ -48,7 +48,7 @@ manager01:~$
 
 ```
 
-### how to add more managers / workers
+### How to add more managers / workers
 Get unique tokens from leader manager, using docker commands
 
 * `docker swarm join-token manager`
