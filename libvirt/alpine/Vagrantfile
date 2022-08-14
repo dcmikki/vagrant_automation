@@ -4,20 +4,25 @@
 ENV['VAGRANT_DEFAULT_PROVIDER'] = 'libvirt'
 
 $script = <<-SCRIPT
-#echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories 
+echo "https://mirrors.edge.kernel.org/alpine/edge/testing" >> /etc/apk/repositories 
 apk update && apk upgrade
-apk add ansible git jq vim net-tools tree py3-pip py3-virtualenv neofetch
+apk add ansible git jq vim net-tools tree py3-pip py3-virtualenv neofetch which curl bash-completion kubectl-bash-completion
 # apk add gcc musl-dev python3-dev libffi-dev openssl-dev cargo make
 # pip install --upgrade pip
 # pip install azure-cli
+
+# Install Kubectl
+echo "Downloading kubectl...."
+curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
+chmod +x ./kubectl
+mv ./kubectl /usr/local/bin/kubectl
 
 echo "192.168.121.146 automation" >> /etc/hosts
 SCRIPT
 
 Vagrant.configure("2") do |config|
   config.vm.define "automation" do |automation|
-    #config.vm.box = "generic/alpine316"
-    config.vm.box = "generic/alpine38"
+    config.vm.box = "generic/alpine312"
     automation.vm.network "private_network", ip: "192.168.121.146"
     automation.vm.synced_folder ".", "/vagrant", disabled: false
     automation.vm.hostname = "automation"
