@@ -5,7 +5,13 @@ ENV['VAGRANT_DEFAULT_PROVIDER'] = 'libvirt'
 
 $script = <<-SCRIPT
 pkg update
-pkg install -y git py39-ansible htop neofetch
+pkg install -y git htop neofetch bash-completion kubectl helm
+
+# Autocompletion
+echo "[[ -f /usr/local/share/bash-completion/bash_completion.sh ]] && source /usr/local/share/bash-completion/bash_completion.sh" >> /home/vagrant/.profile
+echo "source <(kubectl completion bash)"  >> /home/vagrant/.profile
+echo "source <(helm completion bash)"  >> /home/vagrant/.profile
+
 echo "192.168.121.146 automation" >> /etc/hosts
 SCRIPT
 
