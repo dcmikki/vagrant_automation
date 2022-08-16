@@ -7,6 +7,23 @@ $script = <<-SCRIPT
 dnf install -y python2 python3 python3-pip net-tools vim tree git
 pip2 install --upgrade pip
 pip2 install ansible
+
+# Install Kubectl
+echo "Downloading kubectl...."
+curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
+chmod +x ./kubectl
+mv ./kubectl /usr/local/bin/kubectl
+
+# Install helm
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+chmod 700 get_helm.sh
+./get_helm.sh
+rm -rvf get_helm.sh
+
+# Bash auto completion
+echo "source <(kubectl completion bash)"  >> /home/vagrant/.bashrc
+echo "source <(helm completion bash)"     >> /home/vagrant/.bashrc
+
 echo "192.168.121.146 automation" >> /etc/hosts
 SCRIPT
 
