@@ -8,6 +8,7 @@ pkg update
 pkg install -y git htop neofetch bash-completion kubectl helm
 
 # Autocompletion
+echo "neofetch"  >> /home/vagrant/.profile
 echo "[[ -f /usr/local/share/bash-completion/bash_completion.sh ]] && source /usr/local/share/bash-completion/bash_completion.sh" >> /home/vagrant/.profile
 echo "source <(kubectl completion bash)"  >> /home/vagrant/.profile
 echo "source <(helm completion bash)"  >> /home/vagrant/.profile
