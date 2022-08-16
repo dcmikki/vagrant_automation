@@ -17,13 +17,19 @@ curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s ht
 chmod +x ./kubectl
 mv ./kubectl /usr/local/bin/kubectl
 
-echo "192.168.121.146 automation" >> /etc/hosts
+# Install helm
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+chmod 700 get_helm.sh
+./get_helm.sh
+rm -rvf get_helm.sh
+
+echo "192.168.39.146 automation" >> /etc/hosts
 SCRIPT
 
 Vagrant.configure("2") do |config|
   config.vm.define "automation" do |automation|
     config.vm.box = "generic/alpine312"
-    automation.vm.network "private_network", ip: "192.168.121.146"
+    automation.vm.network "private_network", ip: "192.168.39.146"
     automation.vm.synced_folder ".", "/vagrant", disabled: false
     automation.vm.hostname = "automation"
   end
