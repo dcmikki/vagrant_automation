@@ -1,0 +1,50 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+ENV['VAGRANT_DEFAULT_PROVIDER'] = 'virtualbox'
+
+$script = <<-SCRIPT
+echo "https://mirrors.edge.kernel.org/alpine/edge/testing" >> /etc/apk/repositories 
+apk update && apk upgrade
+apk add ansible git jq vim net-tools tree py3-pip py3-virtualenv neofetch which curl bash-completion kubectl-bash-completion
+# apk add gcc musl-dev python3-dev libffi-dev openssl-dev cargo make
+# pip install --upgrade pip
+# pip install azure-cli
+
+# Install Kubectl
+echo "Downloading kubectl...."
+curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
+chmod +x ./kubectl
+mv ./kubectl /usr/local/bin/kubectl
+
+# Install helm
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+chmod 700 get_helm.sh
+./get_helm.sh
+rm -rvf get_helm.sh
+
+echo "192.168.56.146 automation" >> /etc/hosts
+SCRIPT
+
+Vagrant.configure("2") do |config|
+  config.vm.define "automation" do |automation|
+    config.vm.box = "generic/alpine312"
+    automation.vm.network "private_network", ip: "192.168.56.146"
+    automation.vm.synced_folder ".", "/vagrant", disabled: false
+    automation.vm.hostname = "automation"
+  end
+
+  config.vm.provision "shell", inline: $script
+
+  config.vm.provision "shell" do |s|
+    ssh_pub_key = File.readlines("#{Dir.home}/.ssh/id_rsa.pub").first.strip
+    s.inline = <<-SHELL
+      echo #{ssh_pub_key} >> /home/vagrant/.ssh/authorized_keys
+    SHELL
+  end
+
+  config.vm.provider "virtualbox" do |lb|
+    lb.memory = "2048"
+    lb.cpus = "2"
+  end
+end
