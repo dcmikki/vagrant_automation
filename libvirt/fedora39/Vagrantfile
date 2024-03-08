@@ -22,15 +22,15 @@ rm -rvf get_helm.sh
 echo "source <(kubectl completion bash)"  >> /home/vagrant/.bashrc
 echo "source <(helm completion bash)"     >> /home/vagrant/.bashrc
 
-echo "192.168.121.146 automation" >> /etc/hosts
+echo "192.168.121.146 fedora39" >> /etc/hosts
 SCRIPT
 
 Vagrant.configure("2") do |config|
   config.vm.define "automation" do |automation|
-    automation.vm.box = "generic/fedora34"
+    automation.vm.box = "generic/fedora39"
     automation.vm.network "private_network", ip: "192.168.121.146"
     automation.vm.synced_folder ".", "/vagrant", disabled: false
-    automation.vm.hostname = "automation"
+    automation.vm.hostname = "fedora39"
   end
 
   config.vm.provision "shell", inline: $script
