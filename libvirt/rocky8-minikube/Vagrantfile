@@ -5,7 +5,7 @@ ENV['VAGRANT_DEFAULT_PROVIDER'] = 'libvirt'
 
 $script = <<-SCRIPT
 yum install epel-release -y
-yum install -y net-tools vim tree git ansible jq
+yum install -y net-tools vim tree git ansible jq 
 echo "192.168.121.146 minikube" >> /etc/hosts
 SCRIPT
 

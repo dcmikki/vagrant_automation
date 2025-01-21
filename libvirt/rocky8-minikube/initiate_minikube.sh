@@ -8,3 +8,8 @@ sleep 10
 
 # Kubernetes Service Cluster
 kubectl get po -A
+
+# autocompletion minikube, kubectl
+
+echo "source <(minikube completion bash)" >> /home/vagrant/.bashrc
+echo "source <(kubectl completion bash)" >> /home/vagrant/.bashrc

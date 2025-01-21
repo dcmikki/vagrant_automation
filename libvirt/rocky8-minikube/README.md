@@ -1,5 +1,5 @@
 # Minikube
-This Vagrant stack deploys minikube, kubectl and helm on the CentOS7 (guest) using docker as driver.
+This Vagrant stack deploys minikube, kubectl and helm on the Rocky8 (guest) using docker as driver.
 
 ## Using Linux KVM (Kernel-based Virtual Machine) driver
 It's quicker to deploy minikube using the KVM driver instead to spin up and provision a centos7 machine. To work with KVM, minikube uses the libvirt virtualization API.
@@ -27,23 +27,38 @@ minikube start --driver=kvm2 --cpus=4 --memory=4400mb --disk-size=10000mb
 
 ```Example
 $ minikube start --driver=kvm2 --cpus=4 --memory=4400mb --disk-size=10000mb
-😄  minikube v1.26.0 on Linuxmint 20.3
-✨  Using the kvm2 driver based on user configuration
-👍  Starting control plane node minikube in cluster minikube
-🔥  Creating kvm2 VM (CPUs=4, Memory=4400MB, Disk=10000MB) ...
-🐳  Preparing Kubernetes v1.24.1 on Docker 20.10.16 ...
+😄  minikube v1.35.0 on Rocky 8.9
+✨  Using the docker driver based on user configuration
+✨  Using Docker driver with root privileges
+👍  Starting "minikube" primary control-plane node in "minikube" cluster
+🔥  Pulling base image v0.0.46 ...
+🔥  Creating docker container (CPUs=4, Memory=6500MB) ...
+🐳  Preparing Kubernetes v1.32.0 on Docker 27.4.1 ...
     ▪ Generating certificates and keys ...
     ▪ Booting up control plane ...
     ▪ Configuring RBAC rules ...
+🐳  Configuring bridge CNI (Container Networking Interface) ...
 🔎  Verifying Kubernetes components...
     ▪ Using image gcr.io/k8s-minikube/storage-provisioner:v5
 🌟  Enabled addons: storage-provisioner, default-storageclass
 🏄  Done! kubectl is now configured to use "minikube" cluster and "default" namespace by default
-
 ```
 
 
-### Minikube and Kubectl Autocompletion
+### Kubernetes Service Cluster
+```bash
+$ kubectl get po -A
+NAMESPACE     NAME                               READY   STATUS    RESTARTS        AGE
+kube-system   coredns-668d6bf9bc-mcvcf           1/1     Running   0               5m43s
+kube-system   etcd-minikube                      1/1     Running   0               5m49s
+kube-system   kube-apiserver-minikube            1/1     Running   0               5m51s
+kube-system   kube-controller-manager-minikube   1/1     Running   0               5m49s
+kube-system   kube-proxy-n5jjn                   1/1     Running   0               5m44s
+kube-system   kube-scheduler-minikube            1/1     Running   0               5m49s
+kube-system   storage-provisioner                1/1     Running   1 (5m12s ago)   5m48s
+```
+
+### Minikube and Kubectl Ahutocompletion
 For bash users add the following lines in `~/.bashrc`:
 
 ```autocompletion
