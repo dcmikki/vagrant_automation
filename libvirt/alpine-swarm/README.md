@@ -31,7 +31,7 @@ NOTE: If you deploy more managers the first manager will become as the leader.
 
 ### Add node worker to swarm
 ```
-worker01:~$ ddocker swarm join --token SWMTKN-1-0k2o5as8pvd3i2l081t3vce1zt1oop2c2y0vsy300tejq851e1-5uakpswyhlub8i45cugcb25pc 192.168.122.121:2377
+worker01:~$ docker swarm join --token SWMTKN-1-0k2o5as8pvd3i2l081t3vce1zt1oop2c2y0vsy300tejq851e1-5uakpswyhlub8i45cugcb25pc 192.168.122.121:2377
 This node joined a swarm as a worker.
 ```
 
@@ -40,9 +40,11 @@ This node joined a swarm as a worker.
 From one of the node managers:
 ```
 manager01:~$ docker node ls
+
 ID                            HOSTNAME    STATUS    AVAILABILITY   MANAGER STATUS   ENGINE VERSION
-6kykenptj805uyi51kkp4um6g *   manager01   Ready     Active         Leader           20.10.3
-xgmkzjf2amnjwabp5yaicc4iw     worker01    Ready     Active                          20.10.3
+pf1edvttfxieof4d9wfbv2dx8 *   manager01   Ready     Active         Leader           25.0.5
+unngaycuvfn1xt9c2wv70pucs     worker01    Ready     Active                          25.0.5
+
 manager01:~$ 
 ```
 
