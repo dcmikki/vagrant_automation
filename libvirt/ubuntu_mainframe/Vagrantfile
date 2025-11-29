@@ -40,8 +40,8 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.provider "libvirt" do |lb|
-    lb.memory = "2048"
-    lb.cpus = "2"
+    lb.memory = "1024"
+    lb.cpus = "1"
   end
 end
 
