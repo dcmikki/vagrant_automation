@@ -40,6 +40,12 @@ Like the original Tur(n)key 3 system TK5- comes with four TSO users predefined, 
 
 Follow the PDF for further commands and features
 
+### Tricks
+* `/s shutdown` to shutdown system from Hercules status window
+* `logon herc01 recon` to reconnect to existing session
+* `F3` to return to previous ISPF panel
+* `Shift + Esc` to exit wc3270 terminal emulator
+
 ## Links
 
 - https://bradricorigg.medium.com/run-your-own-mainframe-using-hercules-mainframe-emulator-and-mvs-3-8j-tk4-55fa7c982553
