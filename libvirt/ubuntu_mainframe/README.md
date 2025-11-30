@@ -29,7 +29,6 @@ Like the original Tur(n)key 3 system TK4- comes with four TSO users predefined, 
 to IBMUSER, which is the system’s initial user.
 
 - HERC01 is a fully authorized user with full access to the RAKF users and profiles tables. The logon password is CUL8TR.
-
 - HERC02 is a fully authorized user without access to the RAKF users and profiles tables. The logon password is CUL8TR.
 - HERC03 is a regular user. The logon password is PASS4U
 - HERC04 is a regular user. The logon password is PASS4U.- IBMUSER is a fully authorized user without access to the RAKF users and profiles tables. The logon password is IBMPASS. This account is meant to be used for recovery purposes only.
