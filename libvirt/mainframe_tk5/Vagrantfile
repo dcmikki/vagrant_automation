@@ -1,0 +1,49 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+ENV['VAGRANT_DEFAULT_PROVIDER'] = 'libvirt'
+
+$script = <<-SCRIPT
+apt update
+apt install -y net-tools vim tree ncdu file jq curl zip wget
+
+# Install terminal c3270
+apt install -y c3270
+
+# Install hercules emulator + mainframe mvs3.8 tk5 within vagrant folder
+wget https://www.prince-webdesign.nl/images/downloads/mvs-tk5.zip
+unzip mvs-tk5.zip
+rm -vf mvs-tk5.zip
+
+# Permisos
+chown -R vagrant:vagrant /home/vagrant
+chmod -R +x /home/vagrant/mvs-tk5/
+
+echo "192.168.121.146 mainframetk5" >> /etc/hosts
+SCRIPT
+
+Vagrant.configure("2") do |config|
+  config.vm.define "mainframe" do |tk5|
+    tk5.vm.box = "generic/ubuntu2204"
+    tk5.vm.network "private_network", ip: "192.168.121.146"
+    tk5.vm.synced_folder ".", "/vagrant", disabled: false
+    tk5.vm.hostname = "mainframetk5"
+  end
+
+  config.vm.provision "shell", inline: $script
+
+  # copy mainframe_tk5.shto vagrant folder
+  config.vm.provision "file", source: "mainframe_tk5.sh", destination: "/home/vagrant/mainframe_tk5.sh"
+  
+  config.vm.provision "shell" do |s|
+    ssh_pub_key = File.readlines("#{Dir.home}/.ssh/id_rsa.pub").first.strip
+    s.inline = <<-SHELL
+      echo #{ssh_pub_key} >> /home/vagrant/.ssh/authorized_keys
+    SHELL
+  end
+
+  config.vm.provider "libvirt" do |lb|
+    lb.memory = "2048"
+    lb.cpus = "2"
+  end
+end
